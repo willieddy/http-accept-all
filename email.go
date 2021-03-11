@@ -27,7 +27,7 @@ type EmailResponse struct {
 	Result       string `json:"result"`
 	EmailMsgId   string `json:"emailMsgId"`
 	ResponseCode int    `json:"responseCode"`
-	DeliveryTime string `json:'deliveryTime"`
+	DeliveryTime string `json:"deliveryTime"`
 }
 
 func sendEmail() http.Handler {
