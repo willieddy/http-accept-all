@@ -32,7 +32,7 @@ func main() {
 
 	router := http.NewServeMux()
 	router.Handle("/", index())
-	router.Handle("", sendEmail())
+	router.Handle("/v2/send-email/standard", sendEmail())
 	router.Handle("/healthz", healthz())
 
 	nextRequestID := func() string {
