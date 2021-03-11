@@ -8,10 +8,10 @@ import (
 )
 
 type emailRequest struct {
-	to          []string
-	cc          []string
-	bcc         []string
-	headers     []header
+	to          *[]string
+	cc          *[]string
+	bcc         *[]string
+	headers     *[]header
 	subject     string
 	content     string
 	flags       string
@@ -23,10 +23,10 @@ type header struct {
 	value string
 }
 
-type emailResponse struct {
-	result       string
-	emailMsgId   string
-	responseCode int
+type EmailResponse struct {
+	Result       string `json:"result"`
+	EmailMsgId   string `json:"emailMsgId"`
+	ResponseCode int    `json:"responseCode"`
 }
 
 func sendEmail() http.Handler {
@@ -35,18 +35,23 @@ func sendEmail() http.Handler {
 
 		w.Header().Set("Content-Type", "application/json")
 
-		var request emailRequest
-		err := json.NewDecoder(r.Body).Decode(&request)
-		if err != nil {
-			logger.Println("Unable to read request")
-		}
-		logger.Println(request)
+		// var request emailRequest
+		// err := json.NewDecoder(r.Body).Decode(&request)
+		// if err != nil {
+		// 	logger.Println("Unable to read request")
+		// }
+		// logger.Println(request)
 
-		err = json.NewEncoder(w).Encode(emailResponse{
-			result:       "Success",
-			emailMsgId:   "1",
-			responseCode: 200,
-		})
-		w.WriteHeader(http.StatusOK)
+		response := EmailResponse{
+			Result:       "Success",
+			EmailMsgId:   "1",
+			ResponseCode: 200,
+		}
+
+		logger.Println(response)
+		err := json.NewEncoder(w).Encode(response)
+		if err != nil {
+			logger.Println(err)
+		}
 	})
 }
