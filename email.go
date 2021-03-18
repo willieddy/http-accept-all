@@ -2,9 +2,8 @@ package main
 
 import (
 	"encoding/json"
-	"log"
+	"fmt"
 	"net/http"
-	"os"
 )
 
 type EmailRequest struct {
@@ -33,16 +32,15 @@ type EmailResponse struct {
 func sendEmail() http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		defer r.Body.Close()
-		logger := log.New(os.Stdout, "sendEmail: ", log.LstdFlags)
 
 		w.Header().Set("Content-Type", "application/json")
 
 		var request EmailRequest
 		err := json.NewDecoder(r.Body).Decode(&request)
 		if err != nil {
-			logger.Println("Unable to read request")
+			fmt.Println("Unable to read request")
 		}
-		logger.Println(request)
+		fmt.Println(request)
 
 		response := EmailResponse{
 			Result:       "Success",
@@ -51,10 +49,10 @@ func sendEmail() http.Handler {
 			DeliveryTime: "0000",
 		}
 
-		logger.Println(response)
+		fmt.Println(response)
 		err = json.NewEncoder(w).Encode(response)
 		if err != nil {
-			logger.Println(err)
+			fmt.Println(err)
 		}
 	})
 }
