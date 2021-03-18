@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"time"
 )
 
 type EmailRequest struct {
@@ -34,6 +35,7 @@ func sendEmail() http.Handler {
 		defer r.Body.Close()
 
 		w.Header().Set("Content-Type", "application/json")
+		time.Sleep(100 * time.Millisecond)
 
 		var request EmailRequest
 		err := json.NewDecoder(r.Body).Decode(&request)
